@@ -11,7 +11,7 @@ function getData(jsonData, date) {
 }
 
 function updatePlot(jsonData) {
-    chart.data.y = getData(jsonData, dateYouWant);
+    chart.data[0].y = getData(jsonData, dateYouWant);
     Plotly.redraw(chart);
 }
 
