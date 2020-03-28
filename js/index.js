@@ -31,9 +31,15 @@ const parseDate = date => parseInt(moment(date).format('YYYYMMDD'));  // 2020030
 
 const prepareDate = date => date instanceof Date ? parseDate(date) : date;
 
-$('#datepicker').datepicker();
+$('#datepicker').datepicker({
+    startDate: "03/04/2020",
+    endDate: "today",
+    todayHighlight: true,
+    todayBtn: "linked",
+    defaultViewDate: "today",
+});
 $('#datepicker').on('changeDate', function () {
-    $('#my_hidden_input').val(
+    $('#hidden_input_date').val(
         $('#datepicker').datepicker('getFormattedDate')
     );
     dateYouWant = parseDate($('#datepicker').datepicker('getDate'));
