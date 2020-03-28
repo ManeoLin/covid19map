@@ -1,13 +1,11 @@
 var moment = require('moment');
-moment().format();
 
 const chart = document.getElementById('myDiv');
 
 function getData(jsonData, date) {
     date = prepareDate(date);
     var todayData = groupByDate(jsonData)[date];
-    var totalTestResultsIncrease = todayData.map(x => nullToNaN(x['totalTestResultsIncrease']));
-    return totalTestResultsIncrease
+    return todayData.map(x => nullToNaN(x[property]));
 }
 
 function updatePlot(jsonData) {
@@ -42,8 +40,37 @@ $('#datepicker').on('changeDate', function () {
     Plotly.d3.json('https://covidtracking.com/api/states/daily', updatePlot);
 });
 
+$('.selectpicker').selectpicker();
+$('.selectpicker')
+    .on('changed.bs.select', function () {
+        let selectedValue = $(this).val();
+        console.log(selectedValue);
+        switch (selectedValue) {
+            case 'increase':
+                property = 'totalTestResultsIncrease';
+                break;
+            case 'positive':
+                property = 'positive';
+                break;
+            case 'negative':
+                property = 'negative';
+                break;
+            case 'pending':
+                property = 'pending';
+                break;
+            case 'hospitalized':
+                property = 'hospitalized';
+                break;
+            case 'death':
+                property = 'death';
+                break;
+        }
+        Plotly.d3.json('https://covidtracking.com/api/states/daily', updatePlot);
+    });
+
 // Initialize
 var dateYouWant = $('#datepicker').datepicker('getDate');
+var property = 'totalTestResultsIncrease';
 
 Plotly.d3.json('https://covidtracking.com/api/states/daily', function (jsonData) {
     var data = [{
