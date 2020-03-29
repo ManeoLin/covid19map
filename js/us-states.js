@@ -4541,3 +4541,6 @@ const statesData = {
         }
     ]
 };
+
+exports.states = states;
+exports.statesData = statesData;
