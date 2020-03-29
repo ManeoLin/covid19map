@@ -1,11 +1,9 @@
 'use strict';
 
-const states = require('./us-states.js').states;
 const prepareDate = require('./misc.js').prepareDate;
-const chartjs = require('./chart.js');
-const chart = chartjs.chart;
-const getData = chartjs.getData;
-const updatePlot = chartjs.updatePlot;
+const chart = require('./chart.js');
+const newChart = chart.newChart;
+const updateChart = chart.updateChart;
 
 const dp = $('#datepicker');
 const sp = $('.selectpicker');
@@ -20,9 +18,8 @@ dp.datepicker().on('changeDate', function () {
     $('#hidden_input_date').val(
         dp.datepicker('getFormattedDate')
     );
-    let oldDate = dateYouWant;
     dateYouWant = prepareDate(dp.datepicker('getDate'));
-    Plotly.d3.json('https://covidtracking.com/api/states/daily', (jsonData, date, prop) => updatePlot(jsonData, date, prop));
+    Plotly.d3.json('https://covidtracking.com/api/states/daily', jsonData => updateChart(jsonData, dateYouWant, property));
 });
 
 sp.selectpicker();
@@ -48,23 +45,10 @@ sp.on('changed.bs.select', function () {
             property = 'death';
             break;
     }
-    Plotly.d3.json('https://covidtracking.com/api/states/daily', (jsonData, date, prop) => updatePlot(jsonData, date, prop));
+    Plotly.d3.json('https://covidtracking.com/api/states/daily', jsonData => updateChart(jsonData, dateYouWant, property));
 });
 
 // Initialize
 let dateYouWant = prepareDate(dp.datepicker('getDate'));
 let property = 'totalTestResultsIncrease';
-
-Plotly.d3.json('https://covidtracking.com/api/states/daily', function (jsonData) {
-    let data = [{
-        x: states,
-        y: getData(jsonData, dateYouWant, property),
-        type: 'bar'
-    }];
-    let layout = {
-        xaxis: {
-            tickangle: -35,
-        }
-    };
-    Plotly.newPlot(chart, data, layout);
-});
+newChart(dateYouWant, property);

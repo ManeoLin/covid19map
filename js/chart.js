@@ -1,5 +1,6 @@
 'use strict';
 
+const states = require('./us-states.js').states;
 const misc = require('./misc.js');
 const groupByDate = misc.groupByDate;
 const nullToNaN = misc.nullToNaN;
@@ -17,7 +18,23 @@ function getData(jsonData, date, prop) {
     return null;
 }
 
-function updatePlot(jsonData, date, prop) {
+function newChart(dateYouWant, property) {
+    Plotly.d3.json('https://covidtracking.com/api/states/daily', function (jsonData) {
+        let data = [{
+            x: states,
+            y: getData(jsonData, dateYouWant, property),
+            type: 'bar'
+        }];
+        let layout = {
+            xaxis: {
+                tickangle: -35,
+            }
+        };
+        Plotly.newPlot(chart, data, layout);
+    });
+}
+
+function updateChart(jsonData, date, prop) {
     let data = getData(jsonData, date, prop);
     if (data !== null) {
         chart.data[0].y = getData(jsonData, date, prop);
@@ -25,6 +42,7 @@ function updatePlot(jsonData, date, prop) {
     }
 }
 
-exports.updatePlot = updatePlot;
+exports.newChart = newChart;
+exports.updateChart = updateChart;
 exports.getData = getData;
 exports.chart = chart;
