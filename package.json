@@ -1,5 +1,22 @@
 {
   "dependencies": {
     "moment": "^2.24.0"
-  }
+  },
+  "name": "covid19map",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://ManeoLin@github.com/ManeoLin/covid19map.git"
+  },
+  "author": "ManeoLin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ManeoLin/covid19map/issues"
+  },
+  "homepage": "https://github.com/ManeoLin/covid19map#readme"
 }
