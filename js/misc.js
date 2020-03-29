@@ -1,3 +1,7 @@
+'use strict';
+
+const moment = require('moment');
+
 // From https://gist.github.com/JamieMason/0566f8412af9fe6a1d470aa1e089a752
 const groupBy = key => array =>
     array.reduce((objectsByKeyValue, obj) => {

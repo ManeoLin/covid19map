@@ -1,3 +1,5 @@
+'use strict';
+
 let mapboxAccessToken = 'pk.eyJ1Ijoic2FuZXRvIiwiYSI6ImNrOGM4NDBqcDAzYnEzZWs5dTM3ZW1tbHAifQ.IMSzKaqsc8hFHNvPpROG6Q';
 export let map = L.map('map').setView([37.8, -96], 4);
 
