@@ -1,6 +1,7 @@
 'use strict';
 
 const prepareDate = require('./misc.js').prepareDate;
+const d3 = Plotly.d3;
 const chart = require('./chart.js');
 const newChart = chart.newChart;
 const updateChart = chart.updateChart;
@@ -19,7 +20,7 @@ dp.datepicker().on('changeDate', function () {
         dp.datepicker('getFormattedDate')
     );
     dateYouWant = prepareDate(dp.datepicker('getDate'));
-    Plotly.d3.json('https://covidtracking.com/api/states/daily', jsonData => updateChart(jsonData, dateYouWant, property));
+    d3.json('https://covidtracking.com/api/states/daily', jsonData => updateChart(jsonData, dateYouWant, property));
 });
 
 sp.selectpicker();
@@ -45,7 +46,7 @@ sp.on('changed.bs.select', function () {
             property = 'death';
             break;
     }
-    Plotly.d3.json('https://covidtracking.com/api/states/daily', jsonData => updateChart(jsonData, dateYouWant, property));
+    d3.json('https://covidtracking.com/api/states/daily', jsonData => updateChart(jsonData, dateYouWant, property));
 });
 
 // Initialize
