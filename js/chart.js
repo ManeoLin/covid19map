@@ -15,7 +15,7 @@ function getData(jsonData, date, prop) {
         let todayData = data[date];
         return todayData.map(x => nullToNaN(x[prop]));
     }
-    return null;
+    return null;  // TODO: This is not fixed
 }
 
 function newChart(dateYouWant, property) {
