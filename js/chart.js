@@ -4,7 +4,7 @@ const groupByDate = misc.groupByDate;
 const nullToNaN = misc.nullToNaN;
 const prepareDate = misc.prepareDate;
 
-const chart = document.getElementById('myDiv');
+const chart = document.getElementById('chart');
 
 let dateYouWant = 20200328;
 let property = 'totalTestResultsIncrease';
