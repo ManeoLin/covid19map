@@ -10,21 +10,21 @@ const chart = document.getElementById('chart');
 function getData(jsonData, date, prop) {
     date = prepareDate(date);
     let data = groupByDate(jsonData);
-    if (!data.hasOwnProperty(date)) {
-        throw new Error('Whoops!');
+    if (data.hasOwnProperty(date)) {
+        let todayData = data[date];
+        return todayData.map(x => nullToNaN(x[prop]));
     }
-    let todayData = data[date];
-    return todayData.map(x => nullToNaN(x[property]));
+    return null;
 }
 
 function updatePlot(jsonData, date, prop) {
-    try {
+    let data = getData(jsonData, date, prop);
+    if (data !== null) {
         chart.data[0].y = getData(jsonData, date, prop);
-    } catch (error) {
-        console.log("error!");
+        Plotly.redraw(chart);
     }
-    Plotly.redraw(chart);
 }
 
 exports.updatePlot = updatePlot;
 exports.getData = getData;
+exports.chart = chart;

@@ -3,6 +3,7 @@
 const states = require('./us-states.js').states;
 const prepareDate = require('./misc.js').prepareDate;
 const chartjs = require('./chart.js');
+const chart = chartjs.chart;
 const getData = chartjs.getData;
 const updatePlot = chartjs.updatePlot;
 
@@ -14,20 +15,14 @@ dp.datepicker({
     endDate: "today",
     todayHighlight: true,
     todayBtn: "linked",
-    defaultViewDate: "today",
 });
 dp.datepicker().on('changeDate', function () {
     $('#hidden_input_date').val(
         dp.datepicker('getFormattedDate')
     );
-    let olddate = dateYouWant;
+    let oldDate = dateYouWant;
     dateYouWant = prepareDate(dp.datepicker('getDate'));
-    try {
-        Plotly.d3.json('https://covidtracking.com/api/states/daily', (jsonData, date, prop) => updatePlot(jsonData, date, prop));
-    } catch (error) {
-        console.log("failed!");
-        dp.datepicker('setDate', olddate);
-    }
+    Plotly.d3.json('https://covidtracking.com/api/states/daily', (jsonData, date, prop) => updatePlot(jsonData, date, prop));
 });
 
 sp.selectpicker();
@@ -57,7 +52,7 @@ sp.on('changed.bs.select', function () {
 });
 
 // Initialize
-let dateYouWant = dp.datepicker('getDate');
+let dateYouWant = prepareDate(dp.datepicker('getDate'));
 let property = 'totalTestResultsIncrease';
 
 Plotly.d3.json('https://covidtracking.com/api/states/daily', function (jsonData) {
