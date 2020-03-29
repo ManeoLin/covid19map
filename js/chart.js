@@ -1,24 +1,37 @@
-let misc = require('./misc.js');
-
-let groupByDate = misc.groupByDate;
-let nullToNaN = misc.nullToNaN;
-let prepareDate = misc.prepareDate;
+const states = require('./us-states.js').states;
+const misc = require('./misc.js');
+const groupByDate = misc.groupByDate;
+const nullToNaN = misc.nullToNaN;
+const prepareDate = misc.prepareDate;
 
 const chart = document.getElementById('myDiv');
 
-function getData(jsonData, date, property) {
-    date = prepareDate(date);
-    let todayData = groupByDate(jsonData)[date - 1];
-    console.log(date);
-    console.log( groupByDate(jsonData)[date]);
+let dateYouWant = 20200328;
+let property = 'totalTestResultsIncrease';
+
+function getData(jsonData) {
+    let date = prepareDate(dateYouWant);
+    let todayData = groupByDate(jsonData)[date];
     return todayData.map(x => nullToNaN(x[property]));
 }
 
-function updatePlot(jsonData, property) {
-    chart.data[0].y = getData(jsonData, dateYouWant, property);
+function updatePlot(jsonData) {
+    chart.data[0].y = getData(jsonData);
     Plotly.redraw(chart);
 }
 
-exports.chart = chart;
-exports.getData = getData;
+Plotly.d3.json('https://covidtracking.com/api/states/daily', function (jsonData) {
+    let data = [{
+        x: states,
+        y: getData(jsonData, dateYouWant, property),
+        type: 'bar'
+    }]
+    let layout = {
+        xaxis: {
+            tickangle: -35,
+        }
+    }
+    Plotly.newPlot(chart, data, layout);
+});
+
 exports.updatePlot = updatePlot;

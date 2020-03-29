@@ -16,5 +16,4 @@ const prepareDate = date => date instanceof Date ? parseDate(date) : date;
 
 exports.groupByDate = groupByDate;
 exports.nullToNaN = nullToNaN;
-exports.parseDate = parseDate;
 exports.prepareDate = prepareDate;
