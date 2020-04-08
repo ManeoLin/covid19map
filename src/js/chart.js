@@ -1,27 +1,26 @@
 'use strict';
 
-const states = require('./us-states.js').states;
+const us_states = require('./us-states.js').states;
 const misc = require('./misc.js');
+const _ = require('underscore');
 
 const chart = document.getElementById('chart');
 
 function getData(jsonData, date, prop) {
     date = misc.prepareDate(date);
     let data = misc.groupByDate(jsonData);
-    if (data.hasOwnProperty(date)) {
-        let todayData = data[date];
-        return todayData.map(x => misc.nullToNaN(x[prop]));
-    }
-    return null;  // TODO: This is not fixed
+    let currentDateData = data.hasOwnProperty(date) ? data[date] : [us_states, new Array(us_states.length).fill(null)];
+    return [_.pluck(currentDateData, 'state'), _.pluck(currentDateData, prop)];
 }
 
 const chartTitle = () => `Number of tests on ${misc.dateToString()} of each state`
 
-function newChart(dateYouWant, property) {
+function newChart(currentDate, property) {
     Plotly.d3.json('https://covidtracking.com/api/states/daily', function (jsonData) {
+        let [states, y] = getData(jsonData, currentDate, property);
         let data = [{
             x: states,
-            y: getData(jsonData, dateYouWant, property),
+            y: y,
             type: 'bar'
         }];
         let layout = {
@@ -30,7 +29,7 @@ function newChart(dateYouWant, property) {
                 title: 'states'
             },
             yaxis: {
-                title: 'population'
+                title: 'number of tests'
             },
             title: chartTitle()
         };
@@ -39,12 +38,9 @@ function newChart(dateYouWant, property) {
 }
 
 function updateChart(jsonData, date, prop) {
-    let data = getData(jsonData, date, prop);
-    if (data !== null) {
-        chart.data[0].y = getData(jsonData, date, prop);
-        chart.layout.title = chartTitle();
-        Plotly.redraw(chart);
-    }
+    [chart.data[0].x, chart.data[0].y] = getData(jsonData, date, prop);
+    chart.layout.title = chartTitle();
+    Plotly.redraw(chart);
 }
 
 exports.newChart = newChart;
