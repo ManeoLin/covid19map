@@ -15,6 +15,8 @@ function getData(jsonData, date, prop) {
     return null;  // TODO: This is not fixed
 }
 
+const chartTitle = () => `Number of tests on ${misc.dateToString()} of each state`
+
 function newChart(dateYouWant, property) {
     Plotly.d3.json('https://covidtracking.com/api/states/daily', function (jsonData) {
         let data = [{
@@ -25,7 +27,12 @@ function newChart(dateYouWant, property) {
         let layout = {
             xaxis: {
                 tickangle: -35,
-            }
+                title: 'states'
+            },
+            yaxis: {
+                title: 'population'
+            },
+            title: chartTitle()
         };
         Plotly.newPlot(chart, data, layout);
     });
@@ -35,6 +42,7 @@ function updateChart(jsonData, date, prop) {
     let data = getData(jsonData, date, prop);
     if (data !== null) {
         chart.data[0].y = getData(jsonData, date, prop);
+        chart.layout.title = chartTitle();
         Plotly.redraw(chart);
     }
 }
