@@ -146,13 +146,17 @@
             <div id="datepicker" data-date="03/20/2020"></div>
             <input type="hidden" id="hidden_input_date">
 
-            <select class="selectpicker" id="properties">
-                <option>positive</option>
-                <option>negative</option>
-                <option>pending</option>
-                <option>increase</option>
-                <option>hospitalized</option>
-                <option>death</option>
+            <select class="selectpicker" id="properties" multiple data-live-search="true">
+                <optgroup label="tests">
+                    <option>positive</option>
+                    <option>negative</option>
+                    <option>pending</option>
+                </optgroup>
+                <optgroup label="other">
+                    <option>increase</option>
+                    <option>hospitalized</option>
+                    <option>death</option>
+                </optgroup>
             </select>
         </main>
     </div>
