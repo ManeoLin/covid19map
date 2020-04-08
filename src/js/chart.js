@@ -2,18 +2,15 @@
 
 const states = require('./us-states.js').states;
 const misc = require('./misc.js');
-const groupByDate = misc.groupByDate;
-const nullToNaN = misc.nullToNaN;
-const prepareDate = misc.prepareDate;
 
 const chart = document.getElementById('chart');
 
 function getData(jsonData, date, prop) {
-    date = prepareDate(date);
-    let data = groupByDate(jsonData);
+    date = misc.prepareDate(date);
+    let data = misc.groupByDate(jsonData);
     if (data.hasOwnProperty(date)) {
         let todayData = data[date];
-        return todayData.map(x => nullToNaN(x[prop]));
+        return todayData.map(x => misc.nullToNaN(x[prop]));
     }
     return null;  // TODO: This is not fixed
 }
@@ -45,4 +42,3 @@ function updateChart(jsonData, date, prop) {
 exports.newChart = newChart;
 exports.updateChart = updateChart;
 exports.getData = getData;
-exports.chart = chart;
