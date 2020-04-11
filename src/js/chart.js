@@ -31,7 +31,8 @@ function newChart(currentDate, property) {
             yaxis: {
                 title: 'number of tests'
             },
-            title: chartTitle()
+            title: chartTitle(),
+            barmode: 'stack'
         };
         Plotly.newPlot(chart, data, layout);
     });

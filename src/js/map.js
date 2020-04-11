@@ -1,7 +1,9 @@
 'use strict';
 
+const statesData = require('./us-states').statesData;
+
 let mapboxAccessToken = 'pk.eyJ1Ijoic2FuZXRvIiwiYSI6ImNrOGM4NDBqcDAzYnEzZWs5dTM3ZW1tbHAifQ.IMSzKaqsc8hFHNvPpROG6Q';
-export let map = L.map('map').setView([37.8, -96], 4);
+let map = L.map('map').setView([37.8, -96], 4);
 
 L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapboxAccessToken, {
     id: 'mapbox/light-v9',
@@ -69,3 +71,5 @@ geojson = L.geoJson(statesData, {
     style: style,
     onEachFeature: onEachFeature
 }).addTo(map);
+
+exports.map = map;
